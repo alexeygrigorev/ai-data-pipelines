@@ -16,14 +16,33 @@ class TestGitHubDocs:
         """Placeholder test - replace with actual tests."""
         # TODO: Implement actual tests for github_docs functionality
         assert True
+
+
+class TestGitHubFAQSearch:
+    """Test cases for GitHubFAQSearch class."""
+
+    def test_class_attributes(self):
+        """Test that the GitHubFAQSearch class has correct attributes."""
+        from github_docs.main import GitHubFAQSearch
         
-    # Example test structure:
-    # def test_process_github_docs_basic(self):
-    #     """Test basic GitHub docs processing."""
-    #     result = process_github_docs("owner/repo")
-    #     assert result is not None
-    #     
-    # def test_process_github_docs_invalid_repo(self):
-    #     """Test handling of invalid repository."""
-    #     with pytest.raises(ValueError):
-    #         process_github_docs("invalid-repo-format")
+        search_app = GitHubFAQSearch()
+        
+        assert search_app.app_title == "DataTalks Club FAQ Search"
+        assert search_app.app_description == "Interactive search through DataTalks Club FAQ documents"
+        assert len(search_app.sample_questions) == 8
+        assert "How do I run Postgres locally?" in search_app.sample_questions
+        assert "How to connect to database?" in search_app.sample_questions
+    
+    def test_inheritance(self):
+        """Test that GitHubFAQSearch properly inherits from InteractiveSearch."""
+        from github_docs.main import GitHubFAQSearch
+        from common.interactive import InteractiveSearch
+        
+        search_app = GitHubFAQSearch()
+        assert isinstance(search_app, InteractiveSearch)
+        
+        # Check that abstract methods are implemented
+        assert hasattr(search_app, 'load_data')
+        assert hasattr(search_app, 'search')
+        assert callable(search_app.load_data)
+        assert callable(search_app.search)
