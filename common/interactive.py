@@ -41,11 +41,10 @@ class InteractiveSearch(ABC):
     def load_data(self) -> Any:
         """Load and return the search index/data. Must be implemented by subclasses."""
         pass
-    
-    @abstractmethod
+
     def search(self, query: str) -> List[Dict[str, Any]]:
-        """Perform search and return results. Must be implemented by subclasses."""
-        pass
+        """Perform search and return results."""
+        return self.index.search(query)
     
     def display_results(self, results: List[Dict[str, Any]], query: str) -> None:
         """Display search results. Can be overridden by subclasses."""

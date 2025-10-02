@@ -70,10 +70,6 @@ class GitHubFAQSearch(InteractiveSearch):
         CONSOLE.print(f"[green]✅ Successfully indexed {len(index.docs)} documents![/green]")
         return index
 
-    def search(self, query: str) -> List[Dict[str, Any]]:
-        """Search documents using the index."""
-        return self.index.search(query)
-
 
 def main():
     """Main interactive FAQ search application."""
