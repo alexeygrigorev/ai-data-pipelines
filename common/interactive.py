@@ -10,8 +10,105 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt, Confirm
 from rich.text import Text
-from common.display import display_results_with_navigation
+from rich.markdown import Markdown
 
+
+def getch():
+    """Cross-platform getch function."""
+    import sys
+    
+    if sys.platform == "win32":
+        import msvcrt
+        return msvcrt.getch()
+    else:
+        import termios
+        import tty
+        
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(sys.stdin.fileno())
+            key = sys.stdin.read(1)
+            return key.encode('utf-8')
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
+
+
+def display_results_with_navigation(results: List[Dict[str, Any]], query: str, console: Console):
+    """Display search results one at a time with navigation."""
+    if not results:
+        console.print("[bold red]❌ No results found![/bold red]")
+        return
+    
+    current_result = 0
+    total_results = len(results)
+    
+    while current_result < total_results:
+        # Clear screen
+        console.clear()
+        
+        # Show header
+        console.print(f"[bold blue]🔍 Found {total_results} results for:[/bold blue] [italic]{query}[/italic]\n")
+        
+        # Get current result
+        result = results[current_result]
+        content = result.get('content', 'No content available')
+        filename = result.get('filename', 'Unknown')
+        
+        # Show result number and filename
+        console.print(f"[bold green]Result {current_result + 1}/{total_results}: {filename}[/bold green]")
+        console.print()
+        
+        # Render content as markdown
+        try:
+            md = Markdown(content)
+            console.print(md)
+        except Exception:
+            # Fallback to plain text
+            console.print(content)
+        
+        # Show navigation prompt
+        console.print("\n" + "─" * 80)
+        if current_result < total_results - 1:
+            console.print("[dim]Press SPACE for next result, 'q' to quit[/dim]")
+        else:
+            console.print("[dim]End of results - press 'q' to quit[/dim]")
+        
+        # Wait for user input
+        try:
+            while True:
+                key = getch()
+                
+                if key == b'q' or key == b'Q':  # Quit
+                    console.clear()
+                    return
+                elif key == b'\x03':  # Ctrl+C
+                    console.clear()
+                    return
+                elif key == b' ':  # Space - next result
+                    if current_result < total_results - 1:
+                        current_result += 1
+                        break
+                    else:
+                        # At end, quit
+                        console.clear()
+                        return
+        
+        except (ImportError, KeyboardInterrupt):
+            # Fallback for non-Windows systems or Ctrl+C
+            console.print("[yellow]Navigation not available - showing all results[/yellow]")
+            for i, result in enumerate(results, 1):
+                content = result.get('content', 'No content available')
+                filename = result.get('filename', 'Unknown')
+                console.print(f"\n[bold green]{i}. {filename}[/bold green]")
+                try:
+                    md = Markdown(content)
+                    console.print(md)
+                except Exception:
+                    console.print(content)
+                console.print("\n" + "─" * 80)
+            return
 
 class InteractiveSearch(ABC):
     """Base class for interactive search applications."""
@@ -64,11 +161,13 @@ class InteractiveSearch(ABC):
         
         user_question = Prompt.ask(
             "❓ [bold white]Question[/bold white]",
-            default=random_question
         ).strip()
         
-        return user_question if user_question else random_question
-    
+        if user_question:
+            return user_question
+        return random_question
+
+
     def show_welcome(self) -> None:
         """Display welcome message."""
         welcome_panel = Panel(
