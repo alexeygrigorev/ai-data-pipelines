@@ -1,0 +1,24 @@
+[project]
+name = "ai-data-pipelines"
+version = "0.0.1"
+description = "A comprehensive collection of AI data extraction and indexing pipelines"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "minsearch",
+    "requests",
+    "python-frontmatter",
+    "openai",  
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+python_classes = "Test*"

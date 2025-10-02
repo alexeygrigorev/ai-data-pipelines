@@ -1,4 +1,3 @@
-Each folder in this repository is a separate project. These projects are independent from each other.
-
 We use uv for dependency management. 
 
+Each folder is a package. They are kind of independent, but sometimes we can use files from one in another.

@@ -1,0 +1,12 @@
+.envrc
+.venv
+.pytest_cache/
+.coverage
+htmlcov/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.log
