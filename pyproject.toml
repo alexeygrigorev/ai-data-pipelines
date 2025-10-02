@@ -8,7 +8,9 @@ dependencies = [
     "minsearch",
     "requests",
     "python-frontmatter",
-    "openai",  
+    "openai",
+    "rich",
+    "keyboard",
 ]
 
 [dependency-groups]

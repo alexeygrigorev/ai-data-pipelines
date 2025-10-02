@@ -1,5 +1,5 @@
 import io
-from typing import Iterable
+from typing import Iterable, Callable
 import zipfile
 from dataclasses import dataclass
 
@@ -21,7 +21,7 @@ class GithubRepositoryDataReader:
                 repo_owner: str,
                 repo_name: str,
                 allowed_extensions: Iterable[str] | None = None,
-                filename_filter: callable[str, bool] | None = None):
+                filename_filter: Callable[[str], bool] | None = None):
         """
         Initialize the GitHub repository data reader.
         
