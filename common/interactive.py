@@ -3,6 +3,7 @@ Interactive search utilities for creating question-based search interfaces.
 """
 
 import random
+import traceback
 from typing import List, Dict, Any
 from abc import ABC, abstractmethod
 
@@ -198,6 +199,7 @@ class InteractiveSearch(ABC):
 
         except Exception as e:
             self.console.print(f"[bold red]❌ Error loading data: {e}[/bold red]")
+            traceback.print_exc()
             return False
     
     def run_search_loop(self) -> None:
@@ -227,6 +229,7 @@ class InteractiveSearch(ABC):
                 break
             except Exception as e:
                 self.console.print(f"[red]❌ Error: {e}[/red]")
+                traceback.print_exc()
 
         self.console.print("\n[bold blue]Goodbye! 👋[/bold blue]")
     

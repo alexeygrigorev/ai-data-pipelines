@@ -21,13 +21,73 @@ Data Source → Extract → Transform → Index with minsearch (or other target)
 
 ## 🚀 Available Projects
 
+### [`common`](./common/)
+
+Common utilities used in many projects
+
+- [`chunking.py`](common/chunking.py) - Chunking
+- [`indexing.py`](common/indexing.py) - Indexing with minsearch
+- [`interactive.py`](common/interactive.py) - Displaying results in termimal
+
+Dependencies (installable with `pip install` or `uv add`):
+
+- `minsearch` for seach
+- `rich` for TODO 
+
 ### [`github_docs/`](./github_docs/)
-**Extract GitHub documentation and README content for searchable knowledge bases**  
-*Tech: GitHub API, BeautifulSoup, Markdown parsers → Clean documentation content*
+
+Extract GitHub documentation
+
+* Example for https://github.com/DataTalksClub/faq
+* Download a repository as an Zip archive
+* Parse with frontmatter
+* Optional: simple chunking
+
+Running:
+
+```bash
+python run.py github_docs
+```
+
+Files:
+
+* [`github.py`](github_docs/github.py) - Downloads file content from github
+* [`main.py`](github_docs/main.py) - Orchestrates everything
+
+
+Dependencies:
+
+- `requests` for downloading the zip archive from GitHub
+- `frontmatter` for parsing frontmatter (markdown) files
+- the common module
+
 
 ### [`github_code/`](./github_code/)
-**Analyze and index source code and Jupyter notebooks from repositories**  
-*Tech: GitHub API, AST parsers, nbformat, Tree-sitter → Searchable code snippets and functions*
+
+Extracts code and jupyter notebooks
+
+* Uses [`github.py`](github_docs/github.py) from `github_docs` to donwload the content
+* Parses Jupyter notebooks (ipynb files) into md files 
+* Converts code and ipynb files into md documentation with LLM
+* Caches the results with [`petcache`](https://github.com/alexeygrigorev/petcache)
+
+Running:
+
+```bash
+Running:
+
+```bash
+python run.py github_code
+```
+
+Dependencies:
+
+- the github_docs module (for dowloading the zip with files)
+- `requests` via the github_docs module
+- `nbcovert` for processing notebooks
+- `openai`
+- the common module
+
 
 ### [`github_api/`](./github_api/)
 **Extract GitHub project metadata via REST and GraphQL APIs**  

@@ -1,6 +1,7 @@
 import io
 from typing import Iterable, Callable
 import zipfile
+import traceback
 from dataclasses import dataclass
 
 import requests
@@ -21,7 +22,8 @@ class GithubRepositoryDataReader:
                 repo_owner: str,
                 repo_name: str,
                 allowed_extensions: Iterable[str] | None = None,
-                filename_filter: Callable[[str], bool] | None = None):
+                filename_filter: Callable[[str], bool] | None = None
+        ):
         """
         Initialize the GitHub repository data reader.
         
@@ -98,6 +100,7 @@ class GithubRepositoryDataReader:
 
             except Exception as e:
                 print(f"Error processing {file_info.filename}: {e}")
+                traceback.print_exc()
                 continue
 
         return data
