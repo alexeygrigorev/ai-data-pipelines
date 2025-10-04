@@ -4,19 +4,21 @@ A comprehensive collection of AI data extraction and indexing pipelines. Each pi
 
 Use the code from these pipelines to power up your AI products with structured, searchable data.
 
+
 ## 📁 Project Structure
 
 Each project folder contains a complete data pipeline:
+
 - **Data extraction** scripts from specific sources
 - **Processing and transformation** utilities
-- **MinSearch indexing** (configurable for other targets)
+- **`minsearch` indexing** (easy to replace with a different target)
 - **Documentation** and usage examples
 - **Configuration** files and requirements
 
 
 ## 🔄 Pipeline Flow
 
-Data Source → Extract → Transform → Index with minsearch (or other target)
+Data Source → Extract → Transform → Cache → Index with minsearch (or other target)
 
 
 ## 🚀 Available Projects
@@ -28,11 +30,13 @@ Common utilities used in many projects
 - [`chunking.py`](common/chunking.py) - Chunking
 - [`indexing.py`](common/indexing.py) - Indexing with minsearch
 - [`interactive.py`](common/interactive.py) - Displaying results in termimal
+- TODO
 
 Dependencies (installable with `pip install` or `uv add`):
 
 - `minsearch` for seach
 - `rich` for TODO 
+
 
 ### [`github_docs/`](./github_docs/)
 
@@ -74,9 +78,6 @@ Extracts code and jupyter notebooks
 Running:
 
 ```bash
-Running:
-
-```bash
 python run.py github_code
 ```
 
@@ -90,58 +91,80 @@ Dependencies:
 
 
 ### [`github_api/`](./github_api/)
-**Extract GitHub project metadata via REST and GraphQL APIs**  
-*Tech: GitHub API, GraphQL, dlt, PyGithub → Structured project management data*
+
+Extract issues from GitHub
+
+* Uses dlt to fetch data from GitHub API (`issues` endpoint)
+* Puts data into duckdb (also serves as a cache)
+
+
+```bash
+python run.py github_api
+```
+
+Dependencies
+
+
+- `GITHUB_API_KEY`
+- `dlt[duckdb]`
+- the common module
+
 
 ### [`website_scraper_basic/`](./website_scraper_basic/)
-**Traditional web scraping for complex sites requiring custom extraction logic**  
-*Tech: Beautiful Soup, Scrapy, Selenium → Clean web content with custom selectors*
+
+TODO
 
 ### [`website_scraper_jina/`](./website_scraper_jina/)
-**AI-powered content extraction using Jina's intelligent reader technology**  
-*Tech: Jina Reader API → Clean content without HTML parsing complexity*
+
+TODO
+
 
 ### [`wikipedia_processor/`](./wikipedia_processor/)
-**Process Wikipedia XML dumps and MediaWiki exports into searchable format**  
-*Tech: XML parsers, WikiTextParser, MediaWiki API → Clean article content with metadata*
+
+TODO
 
 ### [`pdf_processor/`](./pdf_processor/)
-**Extract and OCR text content from PDF documents**  
-*Tech: MarkItDown, PyPDF2, Tesseract OCR → Searchable document content*
+
+TODO
 
 ### [`audio_transcriber/`](./audio_transcriber/)
-**Transcribe podcasts and audio content into searchable text**  
-*Tech: OpenAI Whisper, AssemblyAI, FFmpeg → Time-stamped transcripts*
+
+TODO
+
 
 ### [`slack_exporter/`](./slack_exporter/)
-**Export Slack workspace conversations for team knowledge indexing**  
-*Tech: Slack Web API, Slack SDK → Structured conversation data*
+
+TODO
+
 
 ### [`wiki_processor/`](./wiki_processor/)
-**Extract content from various wiki platforms and documentation systems**  
-*Tech: Platform APIs, markup parsers, Confluence API → Unified wiki content*
+
+TODO
+
 
 ### [`notion_sync/`](./notion_sync/)
-**Synchronize Notion workspace pages and databases**  
-*Tech: Notion API, dlt framework → Structured knowledge base content*
+
+TODO (use dlt)
+
 
 ### [`article_indexer/`](./article_indexer/)
-**Aggregate and index articles from multiple publishing platforms**  
-*Tech: RSS parsers, Medium API, Newspaper3k → Normalized article content*
+
+TODO
+
 
 ### [`slide_ocr/`](./slide_ocr/)
-**Extract text from presentations using OCR and AI image analysis**  
-*Tech: Tesseract OCR, GPT-4o-mini, python-pptx → Slide text with visual descriptions*
+
+TODO
+
 
 ### [`reddit_scraper/`](./reddit_scraper/)
-**Extract Reddit discussions and community conversations**  
-*Tech: PRAW, Reddit API → Hierarchical discussion threads with metadata*
+
+TODO
 
 ### [`video_processor/`](./video_processor/)
-**Extract audio from videos and transcribe for content indexing**  
-*Tech: FFmpeg, OpenAI Whisper, yt-dlp → Video transcripts with timestamps*
 
----
+TODO
+
 
 ## 🛠️ Getting Started
 

@@ -23,6 +23,10 @@ test: ## Run all tests
 test-coverage: ## Run tests with coverage report
 	uv run pytest --cov=. tests/ --cov-report=term-missing --cov-report=html
 
+notebook: ## Run Jupyter Notebook
+	uv run jupyter notebook
+
+
 # Cleaning
 clean: ## Clean up generated files
 	rm -rf .pytest_cache/

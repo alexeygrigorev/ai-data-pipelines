@@ -3,9 +3,8 @@ name = "ai-data-pipelines"
 version = "0.0.1"
 description = "A comprehensive collection of AI data extraction and indexing pipelines"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<3.14"
 dependencies = [
-    "minsearch",
     "requests",
     "python-frontmatter",
     "openai",
@@ -13,6 +12,8 @@ dependencies = [
     "keyboard",
     "petcache>=0.0.1",
     "nbconvert>=7.16.6",
+    "dlt[duckdb]>=1.17.1",
+    "minsearch==0.0.7",
 ]
 
 [dependency-groups]

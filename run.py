@@ -1,5 +1,6 @@
-import subprocess
 import sys
+import subprocess
+
 
 def main():
     if len(sys.argv) < 2:
@@ -12,6 +13,7 @@ def main():
         ["uv", "run", "python", "-m", f"{module_name}.main"]
     )
     sys.exit(result.returncode)
+
 
 if __name__ == "__main__":
     main()

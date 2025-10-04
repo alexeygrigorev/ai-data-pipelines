@@ -156,7 +156,7 @@ def process_data(data_raw: List[RawRepositoryFile]) -> List[Dict[str, Any]]:
     def process(record: RawRepositoryFile):
         return process_file(code_processor, cache, record)
 
-    # this code is just runs "process_file" in a loop -
+    # this code runs "process_file" in a loop -
     # but it uses thread pool executor, so it's 6x faster
     mapper = TqdmParallelProgress()
     processed_records = mapper.map_progress(data_raw, process)
@@ -185,6 +185,7 @@ def index_de_zoomcamp_data() -> None:
     )
 
     return index
+
 
 class GitHubDEZoomcampSearch(InteractiveSearch):
     """Interactive search for DataTalks Club DE Zoomcamp documents."""

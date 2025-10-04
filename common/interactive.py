@@ -36,7 +36,13 @@ def getch():
 
 
 
-def display_results_with_navigation(results: List[Dict[str, Any]], query: str, console: Console):
+def display_results_with_navigation(
+        results: List[Dict[str, Any]],
+        query: str,
+        console: Console,
+        content_field: str = 'content',
+        filename_field: str = 'filename',
+):
     """Display search results one at a time with navigation."""
     if not results:
         console.print("[bold red]❌ No results found![/bold red]")
@@ -54,9 +60,9 @@ def display_results_with_navigation(results: List[Dict[str, Any]], query: str, c
         
         # Get current result
         result = results[current_result]
-        content = result.get('content', 'No content available')
-        filename = result.get('filename', 'Unknown')
-        
+        content = result.get(content_field, 'No content available')
+        filename = result.get(filename_field, 'Unknown')
+
         # Show result number and filename
         console.print(f"[bold green]Result {current_result + 1}/{total_results}: {filename}[/bold green]")
         console.print()
@@ -111,6 +117,7 @@ def display_results_with_navigation(results: List[Dict[str, Any]], query: str, c
                 console.print("\n" + "─" * 80)
             return
 
+
 class InteractiveSearch(ABC):
     """Base class for interactive search applications."""
     
@@ -119,7 +126,9 @@ class InteractiveSearch(ABC):
         app_title: str,
         app_description: str, 
         sample_questions: List[str],
-        console: Console = None
+        console: Console = None,
+        content_field: str = 'content',
+        filename_field: str = 'filename',
     ):
         """Initialize the interactive search application.
         
@@ -128,13 +137,17 @@ class InteractiveSearch(ABC):
             app_description: Description of what the app does
             sample_questions: List of sample questions to show users
             console: Rich console for output (optional)
+            content_field: The field name in results that contains the main content to display
+            filename_field: The field name in results that contains the filename or title
         """
         self.app_title = app_title
         self.app_description = app_description
         self.sample_questions = sample_questions
         self.console = console or Console()
         self.index = None
-    
+        self.content_field = content_field
+        self.filename_field = filename_field
+
     @abstractmethod
     def load_data(self) -> Any:
         """Load and return the search index/data. Must be implemented by subclasses."""
@@ -146,8 +159,14 @@ class InteractiveSearch(ABC):
     
     def display_results(self, results: List[Dict[str, Any]], query: str) -> None:
         """Display search results. Can be overridden by subclasses."""
-        display_results_with_navigation(results, query, self.console)
-    
+        display_results_with_navigation(
+            results,
+            query,
+            self.console,
+            content_field=self.content_field,
+            filename_field=self.filename_field
+        )
+
     def get_random_question(self) -> str:
         """Get a random sample question."""
         return random.choice(self.sample_questions)

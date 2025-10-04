@@ -30,7 +30,8 @@ class GithubRepositoryDataReader:
         Args:
             repo_owner: The owner/organization of the GitHub repository
             repo_name: The name of the GitHub repository
-            allowed_extensions: Optional set of file extensions to include (e.g., {"md", "py"})
+            allowed_extensions: Optional set of file extensions to include
+                    (e.g., {"md", "py"}). If not provided, all file types are included
             filename_filter: Optional callable to filter files by their path
         """
         prefix = "https://codeload.github.com"
@@ -38,9 +39,7 @@ class GithubRepositoryDataReader:
             f"{prefix}/{repo_owner}/{repo_name}/zip/refs/heads/main"
         )
 
-        if allowed_extensions is None:
-            self.allowed_extensions = set()
-        else:
+        if allowed_extensions is not None:
             self.allowed_extensions = {ext.lower() for ext in allowed_extensions}
 
         if filename_filter is None:
@@ -126,16 +125,15 @@ class GithubRepositoryDataReader:
         if filename.startswith("."):
             return True
 
-        ext = self._get_extension(filepath)
-        if ext not in self.allowed_extensions:
-            return True
+        if self.allowed_extensions:
+            ext = self._get_extension(filepath)
+            if ext not in self.allowed_extensions:
+                return True
 
         if not self.filename_filter(filepath):
             return True
 
         return False
-
-
 
     def _get_extension(self, filepath: str) -> str:
         """
@@ -149,7 +147,7 @@ class GithubRepositoryDataReader:
         """
         filename = filepath.lower().split("/")[-1]
         if "." in filename:
-            return filename.split(".")[-1]
+            return filename.rsplit(".", maxsplit=1)[-1]
         else:
             return ""
 

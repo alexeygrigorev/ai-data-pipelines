@@ -12,3 +12,6 @@ __pycache__/
 *.log
 *.sqlite
 *.sqlite3
+*.duckdb
+*.parquet
+.ipynb_checkpoints
